@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Notes - KrishLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b1020;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+            background: #11182d;
+            border-bottom: 1px solid #263252;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4fc3f7;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #17213b;
+            border: 1px solid #2b3a63;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 55px 25px;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .heading h1 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .heading h1 span {
+            color: #4fc3f7;
+        }
+
+        .heading p {
+            color: #aab4d0;
+        }
+
+        .search-card,
+        .notes-box {
+            background: #11182d;
+            border: 1px solid #263252;
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            color: #dce5ff;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 9px;
+            border: 1px solid #2b3a63;
+            background: #0b1020;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #4fc3f7;
+        }
+
+        input::placeholder {
+            color: #6f7b9d;
+        }
+
+        .search-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #2196f3;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #1976d2;
+        }
+
+        .search-btn:disabled {
+            background: #455a64;
+            cursor: not-allowed;
+        }
+
+        .notes-box {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .notes-header {
+            border-bottom: 1px solid #263252;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .notes-header h2 {
+            color: #4fc3f7;
+            margin-bottom: 8px;
+        }
+
+        .notes-header p {
+            color: #8f9bb8;
+        }
+
+        .notes-content {
+            color: #dce5ff;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 25px;
+            color: #4fc3f7;
+            font-size: 16px;
+        }
+
+        .error {
+            display: none;
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 8px;
+            background: #3a1820;
+            border: 1px solid #71313d;
+            color: #ffb4bd;
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                padding: 40px 15px;
+            }
+
+            .heading h1 {
+                font-size: 30px;
+            }
+
+            .search-card,
+            .notes-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            KrishLearn
+        </div>
+
+        <a
+            href="/pages/backend/dashboard.html"
+            class="back-btn"
+        >
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <div class="heading">
+
+            <h1>
+                Learn Any <span>Topic</span>
+            </h1>
+
+            <p>
+                Search a topic and let KrishLearn AI create your study notes.
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-card">
+
+            <div class="field">
+
+                <label for="subject">
+                    Select Subject
+                </label>
+
+                <select id="subject">
+
+                    <option value="">
+                        -- Select Subject --
+                    </option>
+
+                    <option value="Mathematics">
+                        Mathematics
+                    </option>
+
+                    <option value="Computer Science">
+                        Computer Science
+                    </option>
+
+                    <option value="Physics">
+                        Physics
+                    </option>
+
+                    <option value="Chemistry">
+                        Chemistry
+                    </option>
+
+                    <option value="Programming">
+                        Programming
+                    </option>
+
+                    <option value="DBMS">
+                        DBMS
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="topic">
+                    Enter Topic
+                </label>
+
+                <input
+                    type="text"
+                    id="topic"
+                    placeholder="Example: DBMS Normalization"
+                >
+
+            </div>
+
+
+            <button
+                class="search-btn"
+                id="searchBtn"
+                onclick="generateNotes()"
+            >
+                🤖 Generate AI Notes
+            </button>
+
+        </div>
+
+
+        <!-- LOADING -->
+
+        <div
+            class="loading"
+            id="loading"
+        >
+            🤖 KrishLearn AI is preparing your notes...
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            class="error"
+            id="errorBox"
+        ></div>
+
+
+        <!-- NOTES -->
+
+        <div
+            class="notes-box"
+            id="notesBox"
+        >
+
+            <div class="notes-header">
+
+                <h2 id="notesTitle">
+                    AI Notes
+                </h2>
+
+                <p id="notesSubject">
+                    Subject
+                </p>
+
+            </div>
+
+
+            <div
+                class="notes-content"
+                id="notesContent"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        async function generateNotes() {
+
+            const subject =
+                document.getElementById("subject").value;
+
+            const topic =
+                document.getElementById("topic").value.trim();
+
+            const searchBtn =
+                document.getElementById("searchBtn");
+
+            const loading =
+                document.getElementById("loading");
+
+            const errorBox =
+                document.getElementById("errorBox");
+
+            const notesBox =
+                document.getElementById("notesBox");
+
+            const notesTitle =
+                document.getElementById("notesTitle");
+
+            const notesSubject =
+                document.getElementById("notesSubject");
+
+            const notesContent =
+                document.getElementById("notesContent");
+
+
+            // RESET
+
+            errorBox.style.display = "none";
+            notesBox.style.display = "none";
+
+
+            // VALIDATION
+
+            if (!subject) {
+
+                alert("Please select a subject.");
+
+                return;
+
+            }
+
+
+            if (!topic) {
+
+                alert("Please enter a topic.");
+
+                return;
+
+            }
+
+
+            // LOADING
+
+            searchBtn.disabled = true;
+
+            searchBtn.textContent =
+                "Generating...";
+
+            loading.style.display = "block";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/generate-notes",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                subject: subject,
+
+                                topic: topic
+
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "AI notes generation failed"
+                    );
+
+                }
+
+
+                // DISPLAY NOTES
+
+                notesTitle.textContent =
+                    topic;
+
+                notesSubject.textContent =
+                    "Subject: " + subject;
+
+                notesContent.textContent =
+                    data.notes;
+
+                notesBox.style.display =
+                    "block";
+
+
+                // SCROLL TO NOTES
+
+                notesBox.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+
+            } catch (error) {
+
+                console.log(
+                    "AI Error:",
+                    error
+                );
+
+                errorBox.textContent =
+                    "❌ " + error.message;
+
+                errorBox.style.display =
+                    "block";
+
+
+            } finally {
+
+                searchBtn.disabled =
+                    false;
+
+                searchBtn.textContent =
+                    "🤖 Generate AI Notes";
+
+                loading.style.display =
+                    "none";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>

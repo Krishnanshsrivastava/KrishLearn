@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mentor - KrishLearn</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b1220;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            background: #111a2e;
+            border-bottom: 1px solid #26324a;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #7c5cff;
+        }
+
+        .back-btn {
+            background: #1c2740;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #293755;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .title h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #9ca8bd;
+        }
+
+        .chat-box {
+            background: #111a2e;
+            border: 1px solid #26324a;
+            border-radius: 15px;
+            min-height: 500px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 5px;
+            min-height: 350px;
+            max-height: 500px;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .bubble {
+            max-width: 75%;
+            padding: 13px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .bot .bubble {
+            background: #1c2740;
+            color: #e7ebf3;
+        }
+
+        .user .bubble {
+            background: #6d4cff;
+            color: white;
+        }
+
+        /* AI response formatting */
+
+        .bot .bubble strong {
+            font-weight: bold;
+        }
+
+        .bot .bubble pre {
+            background: #0b1220;
+            border: 1px solid #2b3854;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+
+        .bot .bubble code {
+            font-family: Consolas, monospace;
+            font-size: 14px;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .quick-btn {
+            background: #172139;
+            color: #cbd5e1;
+            border: 1px solid #2b3854;
+            padding: 9px 13px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .quick-btn:hover {
+            background: #253452;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        #messageInput {
+            flex: 1;
+            background: #0b1220;
+            color: white;
+            border: 1px solid #2b3854;
+            border-radius: 10px;
+            padding: 14px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        #messageInput:focus {
+            border-color: #7c5cff;
+        }
+
+        #sendBtn {
+            background: #6d4cff;
+            color: white;
+            border: none;
+            padding: 0 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        #sendBtn:hover {
+            background: #7c5cff;
+        }
+
+        #sendBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .typing {
+            color: #9ca8bd;
+            font-size: 14px;
+            margin: 5px 0 15px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 0 15px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .bubble {
+                max-width: 88%;
+            }
+
+            .input-area {
+                flex-direction: column;
+            }
+
+            #sendBtn {
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="logo">
+            Krish<span>Learn</span>
+        </div>
+
+        <button class="back-btn" onclick="goDashboard()">
+            ← Dashboard
+        </button>
+
+    </header>
+
+
+    <main class="container">
+
+        <div class="title">
+
+            <h1>🤖 AI Study Mentor</h1>
+
+            <p>
+                Your personal AI mentor for learning, planning and exam preparation.
+            </p>
+
+        </div>
+
+
+        <div class="chat-box">
+
+            <div class="messages" id="messages">
+
+                <div class="message bot">
+
+                    <div class="bubble">
+                        👋 Hi! I'm your KrishLearn AI Mentor.
+
+Ask me anything about your studies, NIMCET preparation, programming, concepts, revision or study strategy.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="typing" id="typing">
+                🤖 AI Mentor is thinking...
+            </div>
+
+
+            <div class="quick-actions">
+
+                <button
+                    class="quick-btn"
+                    onclick="quickAsk('Explain a difficult topic to me in simple words.')"
+                >
+                    📚 Explain a topic
+                </button>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickAsk('Give me a study strategy for NIMCET preparation.')"
+                >
+                    🎯 NIMCET Strategy
+                </button>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickAsk('Quiz me on an important topic.')"
+                >
+                    🧠 Quiz me
+                </button>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickAsk('Help me decide what I should study today.')"
+                >
+                    📅 What should I study?
+                </button>
+
+            </div>
+
+
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Ask your AI Mentor..."
+                    autocomplete="off"
+                >
+
+                <button
+                    id="sendBtn"
+                    onclick="sendMessage()"
+                >
+                    Send
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const messageInput =
+            document.getElementById("messageInput");
+
+        const messages =
+            document.getElementById("messages");
+
+        const sendBtn =
+            document.getElementById("sendBtn");
+
+        const typing =
+            document.getElementById("typing");
+
+
+        // ==========================================
+        // GO TO DASHBOARD
+        // ==========================================
+
+        function goDashboard() {
+
+            window.location.href =
+                "/pages/backend/dashboard.html";
+
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHTML(text) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent = text;
+
+            return div.innerHTML;
+
+        }
+
+
+        // ==========================================
+        // FORMAT AI RESPONSE
+        // ==========================================
+
+        function formatAIResponse(text) {
+
+            return escapeHTML(text)
+
+                // Bold text: **text**
+                .replace(
+                    /\*\*(.*?)\*\*/g,
+                    "<strong>$1</strong>"
+                )
+
+                // Code blocks: ```code```
+                .replace(
+                    /```([\s\S]*?)```/g,
+                    "<pre><code>$1</code></pre>"
+                )
+
+                // New lines
+                .replace(
+                    /\n/g,
+                    "<br>"
+                );
+
+        }
+
+
+        // ==========================================
+        // ADD MESSAGE
+        // ==========================================
+
+        function addMessage(text, type) {
+
+            const message =
+                document.createElement("div");
+
+            message.className =
+                "message " + type;
+
+
+            message.innerHTML = `
+                <div class="bubble">
+                    ${
+                        type === "bot"
+                            ? formatAIResponse(text)
+                            : escapeHTML(text)
+                    }
+                </div>
+            `;
+
+
+            messages.appendChild(message);
+
+            messages.scrollTop =
+                messages.scrollHeight;
+
+        }
+
+
+        // ==========================================
+        // QUICK QUESTIONS
+        // ==========================================
+
+        function quickAsk(text) {
+
+            messageInput.value = text;
+
+            sendMessage();
+
+        }
+
+
+        // ==========================================
+        // SEND MESSAGE
+        // ==========================================
+
+        async function sendMessage() {
+
+            const message =
+                messageInput.value.trim();
+
+
+            if (!message) {
+
+                return;
+
+            }
+
+
+            // Show user's message
+
+            addMessage(
+                message,
+                "user"
+            );
+
+
+            messageInput.value = "";
+
+
+            sendBtn.disabled = true;
+
+            typing.style.display = "block";
+
+
+            try {
+
+                const userData =
+                    localStorage.getItem("user");
+
+
+                if (!userData) {
+
+                    addMessage(
+                        "Please login first to use AI Mentor.",
+                        "bot"
+                    );
+
+                    return;
+
+                }
+
+
+                const user =
+                    JSON.parse(userData);
+
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/mentor",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                email:
+                                    user.email,
+
+                                message:
+                                    message
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Something went wrong."
+                    );
+
+                }
+
+
+                // Show AI response
+
+                addMessage(
+                    data.reply ||
+                    "I couldn't generate a response.",
+                    "bot"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "AI Mentor Error:",
+                    error
+                );
+
+
+                addMessage(
+                    "Sorry, I couldn't connect to the AI Mentor right now.",
+                    "bot"
+                );
+
+
+            } finally {
+
+                typing.style.display =
+                    "none";
+
+
+                sendBtn.disabled =
+                    false;
+
+
+                messageInput.focus();
+
+            }
+
+        }
+
+
+        // ==========================================
+        // ENTER TO SEND
+        // ==========================================
+
+        messageInput.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    sendMessage();
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

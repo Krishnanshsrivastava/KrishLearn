@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - KrishLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #080d1c;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Background glow */
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: #006eff;
+            opacity: 0.12;
+            filter: blur(120px);
+            top: -100px;
+            left: -100px;
+            border-radius: 50%;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: #00e5ff;
+            opacity: 0.08;
+            filter: blur(120px);
+            bottom: -150px;
+            right: -100px;
+            border-radius: 50%;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+            background: #10182d;
+            border: 1px solid #25365f;
+            border-radius: 20px;
+            padding: 40px 35px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Logo */
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            width: 58px;
+            height: 58px;
+            margin: auto;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #087cff, #00d9ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 8px 25px rgba(0, 140, 255, 0.3);
+        }
+
+        .logo h1 {
+            margin-top: 15px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .logo h1 span {
+            color: #21cfff;
+        }
+
+        .logo p {
+            margin-top: 7px;
+            color: #8f9bb7;
+            font-size: 14px;
+        }
+
+        /* Heading */
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h2 {
+            font-size: 22px;
+            margin-bottom: 7px;
+        }
+
+        .heading p {
+            color: #8995b1;
+            font-size: 14px;
+        }
+
+        /* Input */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #d6dded;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box span {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #71809e;
+            font-size: 17px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 14px 14px 43px;
+            background: #0a1124;
+            color: white;
+            border: 1px solid #29385d;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        input::placeholder {
+            color: #66728c;
+        }
+
+        input:focus {
+            border-color: #168bff;
+            box-shadow: 0 0 0 3px rgba(22, 139, 255, 0.1);
+        }
+
+        /* Login button */
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #087cff, #00bfff);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(0, 132, 255, 0.22);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(0, 160, 255, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Signup */
+
+        .signup-text {
+            text-align: center;
+            margin-top: 23px;
+            color: #8793ad;
+            font-size: 14px;
+        }
+
+        .signup-text a {
+            color: #20cfff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Small footer */
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #56627c;
+            font-size: 12px;
+        }
+
+        @media (max-width: 500px) {
+
+            .login-container {
+                padding: 30px 22px;
+            }
+
+            .logo h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- Logo -->
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🎓
+            </div>
+
+            <h1>
+                Krish<span>Learn</span>
+            </h1>
+
+            <p>
+                Your AI-powered study companion
+            </p>
+
+        </div>
+
+
+        <!-- Heading -->
+
+        <div class="heading">
+
+            <h2>
+                Welcome Back 👋
+            </h2>
+
+            <p>
+                Login to continue your learning journey.
+            </p>
+
+        </div>
+
+
+        <!-- Login Form -->
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <div class="input-box">
+
+                    <span>✉</span>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-box">
+
+                    <span>🔒</span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <!-- Signup -->
+
+        <div class="signup-text">
+
+            Don't have an account?
+
+           <a href="signup.html">
+    Create Account
+</a>
+
+        </div>
+
+
+        <div class="footer">
+            © 2026 KrishLearn • Learn Smarter 🚀
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const password =
+                    document.getElementById("password").value;
+
+
+                try {
+
+                    const response = await fetch(
+                        "http://localhost:5000/api/login",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                email: email,
+                                password: password
+
+                            })
+
+                        }
+                    );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (response.ok) {
+
+                        // Save logged-in user
+
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify(data.user)
+                        );
+
+
+                        alert(
+                            "Login successful! 🎉"
+                        );
+
+
+                        // Dashboard
+
+                        window.location.href =
+                            "/pages/backend/dashboard.html";
+
+                    } else {
+
+                        alert(
+                            data.message ||
+                            "Invalid email or password"
+                        );
+
+                    }
+
+
+                } catch (error) {
+
+                    console.log(
+                        "Login Error:",
+                        error
+                    );
+
+                    alert(
+                        "Server se connection nahi ho pa raha."
+                    );
+
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Progress | KrishLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #07111f;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px 0;
+        }
+
+        /* HEADER */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #22d3ee;
+        }
+
+        .back-btn {
+            background: #10243b;
+            color: white;
+            border: 1px solid #1e405e;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #163451;
+        }
+
+        /* TITLE */
+
+        .title-section {
+            margin-bottom: 30px;
+        }
+
+        .title-section h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .title-section p {
+            color: #94a3b8;
+        }
+
+        /* SUMMARY CARDS */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: #0d1b2a;
+            border: 1px solid #18334d;
+            border-radius: 16px;
+            padding: 24px;
+            transition: 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+            border-color: #22d3ee;
+        }
+
+        .card-title {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .card-value {
+            font-size: 30px;
+            font-weight: bold;
+            color: #22d3ee;
+        }
+
+        /* OVERALL PROGRESS */
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 22px;
+            margin-bottom: 30px;
+        }
+
+        .box {
+            background: #0d1b2a;
+            border: 1px solid #18334d;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .box h2 {
+            margin-bottom: 20px;
+            font-size: 21px;
+        }
+
+        /* CIRCLE */
+
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0 25px;
+        }
+
+        .progress-circle {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #22d3ee 0deg,
+                #22d3ee 0deg,
+                #19344d 0deg
+            );
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .progress-circle::before {
+            content: "";
+            width: 145px;
+            height: 145px;
+            background: #0d1b2a;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .circle-text {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .circle-text h3 {
+            font-size: 38px;
+            color: #22d3ee;
+        }
+
+        .circle-text p {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        /* PERFORMANCE */
+
+        .performance-item {
+            margin-bottom: 22px;
+        }
+
+        .performance-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .performance-header span:first-child {
+            color: #cbd5e1;
+        }
+
+        .performance-header span:last-child {
+            color: #22d3ee;
+            font-weight: bold;
+        }
+
+        .bar {
+            width: 100%;
+            height: 10px;
+            background: #172b40;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #22d3ee;
+            border-radius: 20px;
+            transition: width 0.8s ease;
+        }
+
+        /* HISTORY */
+
+        .history-box {
+            background: #0d1b2a;
+            border: 1px solid #18334d;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .history-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            color: #94a3b8;
+            font-size: 13px;
+            padding: 14px;
+            border-bottom: 1px solid #18334d;
+        }
+
+        td {
+            padding: 15px 14px;
+            border-bottom: 1px solid #142b40;
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #0f2235;
+        }
+
+        .score-good {
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .score-average {
+            color: #facc15;
+            font-weight: bold;
+        }
+
+        .score-low {
+            color: #f87171;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #94a3b8;
+        }
+
+        /* LOADING */
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .container {
+                width: 94%;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .title-section h1 {
+                font-size: 28px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                padding: 20px;
+            }
+
+            th,
+            td {
+                padding: 12px 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <div class="logo">
+                KrishLearn
+            </div>
+
+            <button class="back-btn" onclick="goDashboard()">
+                ← Back to Dashboard
+            </button>
+
+        </div>
+
+
+        <!-- TITLE -->
+
+        <div class="title-section">
+
+            <h1>📊 My Progress</h1>
+
+            <p>
+                Track your quiz performance and learning progress.
+            </p>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+
+                <div class="card-title">
+                    Quizzes Taken
+                </div>
+
+                <div class="card-value" id="quizAttempts">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="card-title">
+                    Questions Attempted
+                </div>
+
+                <div class="card-value" id="totalQuestions">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="card-title">
+                    Correct Answers
+                </div>
+
+                <div class="card-value" id="correctAnswers">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="card-title">
+                    Overall Accuracy
+                </div>
+
+                <div class="card-value" id="averageScore">
+                    0%
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN -->
+
+        <div class="main-grid">
+
+
+            <!-- OVERALL -->
+
+            <div class="box">
+
+                <h2>Overall Progress</h2>
+
+                <div class="circle-container">
+
+                    <div class="progress-circle" id="progressCircle">
+
+                        <div class="circle-text">
+
+                            <h3 id="progressPercentage">
+                                0%
+                            </h3>
+
+                            <p>Accuracy</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERFORMANCE -->
+
+            <div class="box">
+
+                <h2>Performance Overview</h2>
+
+
+                <div class="performance-item">
+
+                    <div class="performance-header">
+
+                        <span>
+                            Correct Answers
+                        </span>
+
+                        <span id="correctPercentage">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            id="correctBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="performance-item">
+
+                    <div class="performance-header">
+
+                        <span>
+                            Questions Attempted
+                        </span>
+
+                        <span id="attemptedText">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            id="attemptedBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="performance-item">
+
+                    <div class="performance-header">
+
+                        <span>
+                            Overall Accuracy
+                        </span>
+
+                        <span id="accuracyText">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            id="accuracyBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- HISTORY -->
+
+        <div class="history-box">
+
+            <h2>📚 Quiz History</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Subject
+                            </th>
+
+                            <th>
+                                Topic
+                            </th>
+
+                            <th>
+                                Score
+                            </th>
+
+                            <th>
+                                Percentage
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="historyBody">
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="loading">
+
+                                Loading progress...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // ==============================
+        // CHECK LOGIN
+        // ==============================
+
+        const userData =
+            localStorage.getItem("user");
+
+        if (!userData) {
+
+            window.location.href =
+                "/pages/backend/login.html";
+
+        }
+
+
+        let user = null;
+
+
+        try {
+
+            user =
+                JSON.parse(userData);
+
+        } catch (error) {
+
+            console.log(
+                "User data error:",
+                error
+            );
+
+            localStorage.removeItem("user");
+
+            window.location.href =
+                "/pages/backend/login.html";
+
+        }
+
+
+        // ==============================
+        // DASHBOARD
+        // ==============================
+
+        function goDashboard() {
+
+            window.location.href =
+                "/pages/backend/dashboard.html";
+
+        }
+
+
+        // ==============================
+        // LOAD PROGRESS
+        // ==============================
+
+        async function loadProgress() {
+
+            if (!user || !user.email) {
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `http://localhost:5000/api/progress/${encodeURIComponent(user.email)}`
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Progress fetch failed"
+                    );
+
+                }
+
+
+                // ==============================
+                // SUMMARY DATA
+                // ==============================
+
+                const quizAttempts =
+                    Number(data.quizAttempts) || 0;
+
+                const totalQuestions =
+                    Number(data.totalQuestions) || 0;
+
+                const correctAnswers =
+                    Number(data.correctAnswers) || 0;
+
+                const averageScore =
+                    Number(data.averageScore) || 0;
+
+
+                document.getElementById(
+                    "quizAttempts"
+                ).textContent =
+                    quizAttempts;
+
+
+                document.getElementById(
+                    "totalQuestions"
+                ).textContent =
+                    totalQuestions;
+
+
+                document.getElementById(
+                    "correctAnswers"
+                ).textContent =
+                    correctAnswers;
+
+
+                document.getElementById(
+                    "averageScore"
+                ).textContent =
+                    averageScore + "%";
+
+
+                // ==============================
+                // CIRCLE
+                // ==============================
+
+                const circle =
+                    document.getElementById(
+                        "progressCircle"
+                    );
+
+
+                const degree =
+                    (averageScore / 100) * 360;
+
+
+                circle.style.background =
+                    `conic-gradient(
+                        #22d3ee 0deg,
+                        #22d3ee ${degree}deg,
+                        #19344d ${degree}deg,
+                        #19344d 360deg
+                    )`;
+
+
+                document.getElementById(
+                    "progressPercentage"
+                ).textContent =
+                    averageScore + "%";
+
+
+                // ==============================
+                // PERFORMANCE
+                // ==============================
+
+                document.getElementById(
+                    "correctPercentage"
+                ).textContent =
+                    averageScore + "%";
+
+
+                document.getElementById(
+                    "accuracyText"
+                ).textContent =
+                    averageScore + "%";
+
+
+                document.getElementById(
+                    "attemptedText"
+                ).textContent =
+                    totalQuestions;
+
+
+                document.getElementById(
+                    "correctBar"
+                ).style.width =
+                    averageScore + "%";
+
+
+                document.getElementById(
+                    "accuracyBar"
+                ).style.width =
+                    averageScore + "%";
+
+
+                let attemptedProgress = 0;
+
+
+                if (totalQuestions > 0) {
+
+                    attemptedProgress = 100;
+
+                }
+
+
+                document.getElementById(
+                    "attemptedBar"
+                ).style.width =
+                    attemptedProgress + "%";
+
+
+                // ==============================
+                // HISTORY
+                // ==============================
+
+                loadHistory(
+                    data.history || []
+                );
+
+
+            } catch (error) {
+
+                console.log(
+                    "Progress Error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "historyBody"
+                ).innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty">
+
+                            ❌ Unable to load progress.
+
+                            <br><br>
+
+                            Make sure the backend server
+                            is running.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        }
+
+
+        // ==============================
+        // LOAD HISTORY
+        // ==============================
+
+        function loadHistory(history) {
+
+            const historyBody =
+                document.getElementById(
+                    "historyBody"
+                );
+
+
+            if (!history.length) {
+
+                historyBody.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty">
+
+                            📚 No quiz attempts yet.
+
+                            <br>
+
+                            Take your first AI quiz
+                            to see your progress here!
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            historyBody.innerHTML = "";
+
+
+            history.forEach(
+                (item) => {
+
+                    const score =
+                        Number(item.score) || 0;
+
+                    const total =
+                        Number(item.total) || 0;
+
+                    const percentage =
+                        Number(item.percentage) || 0;
+
+
+                    let scoreClass =
+                        "score-low";
+
+
+                    if (percentage >= 70) {
+
+                        scoreClass =
+                            "score-good";
+
+                    } else if (
+                        percentage >= 40
+                    ) {
+
+                        scoreClass =
+                            "score-average";
+
+                    }
+
+
+                    let dateText =
+                        "N/A";
+
+
+                    if (item.date) {
+
+                        const date =
+                            new Date(
+                                item.date
+                            );
+
+
+                        dateText =
+                            date.toLocaleDateString(
+                                "en-IN",
+                                {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric"
+                                }
+                            );
+
+                    }
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${escapeHTML(
+                                item.subject ||
+                                "General"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                item.topic ||
+                                "General Quiz"
+                            )}
+                        </td>
+
+                        <td>
+                            ${score} / ${total}
+                        </td>
+
+                        <td
+                            class="${scoreClass}">
+
+                            ${percentage}%
+
+                        </td>
+
+                        <td>
+                            ${dateText}
+                        </td>
+
+                    `;
+
+
+                    historyBody.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ==============================
+        // SECURITY
+        // ==============================
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // ==============================
+        // START
+        // ==============================
+
+        loadProgress();
+
+    </script>
+
+</body>
+
+</html>

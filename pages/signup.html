@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up - KrishLearn</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #080d1c;
+            color: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+        }
+
+        /* =========================
+           MAIN CARD
+        ========================= */
+
+        .signup-container {
+
+            width: 100%;
+            max-width: 440px;
+
+            background: #10182d;
+
+            border: 1px solid #24365f;
+
+            border-radius: 20px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.45);
+
+        }
+
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo {
+
+            text-align: center;
+
+            margin-bottom: 10px;
+
+        }
+
+        .logo-icon {
+
+            font-size: 38px;
+
+            margin-bottom: 8px;
+
+        }
+
+        .logo h1 {
+
+            font-size: 28px;
+
+            color: white;
+
+            letter-spacing: -0.5px;
+
+        }
+
+        .logo h1 span {
+
+            color: #25d9ff;
+
+        }
+
+
+        /* =========================
+           HEADING
+        ========================= */
+
+        .heading {
+
+            text-align: center;
+
+            margin-bottom: 28px;
+
+        }
+
+        .heading h2 {
+
+            font-size: 25px;
+
+            margin-bottom: 8px;
+
+        }
+
+        .heading p {
+
+            color: #9ba8c7;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+
+            margin-bottom: 17px;
+
+        }
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #d8def0;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border-radius: 10px;
+
+            border: 1px solid #304269;
+
+            background: #0a1124;
+
+            color: white;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+
+        }
+
+        .form-group input::placeholder {
+
+            color: #697694;
+
+        }
+
+        .form-group input:focus {
+
+            border-color: #159cff;
+
+            box-shadow: 0 0 0 2px rgba(21, 156, 255, 0.12);
+
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .signup-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 7px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #147cff,
+                #11bff5
+            );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+        .signup-btn:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 25px rgba(17, 191, 245, 0.25);
+
+        }
+
+        .signup-btn:active {
+
+            transform: translateY(0);
+
+        }
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        #message {
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            font-size: 14px;
+
+            min-height: 20px;
+
+        }
+
+
+        /* =========================
+           LOGIN LINK
+        ========================= */
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #8e9ab7;
+
+            font-size: 14px;
+
+        }
+
+        .login-link a {
+
+            color: #22cfff;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+        }
+
+        .login-link a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #596783;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            body {
+
+                padding: 18px;
+
+            }
+
+            .signup-container {
+
+                padding: 28px 22px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="signup-container">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🎓
+            </div>
+
+            <h1>
+                Krish<span>Learn</span>
+            </h1>
+
+        </div>
+
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+            <h2>
+                Create Account
+            </h2>
+
+            <p>
+                Start your personalized learning journey
+                with AI Study Mentor.
+            </p>
+
+        </div>
+
+
+        <!-- SIGNUP FORM -->
+
+        <form id="signupForm">
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                class="signup-btn"
+            >
+                Create Account
+            </button>
+
+
+        </form>
+
+
+        <!-- MESSAGE -->
+
+        <div id="message"></div>
+
+
+        <!-- LOGIN -->
+
+        <div class="login-link">
+
+            Already have an account?
+
+          <a href="login.html">
+    Login
+</a>
+
+        </div>
+
+
+        <div class="footer">
+
+            © 2026 KrishLearn • AI Study Mentor
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+        // ===============================
+        // SIGNUP
+        // ===============================
+
+        document
+            .getElementById("signupForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById("name").value.trim();
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const password =
+                    document.getElementById("password").value;
+
+                const confirmPassword =
+                    document.getElementById("confirmPassword").value;
+
+                const message =
+                    document.getElementById("message");
+
+
+                // ===============================
+                // PASSWORD CHECK
+                // ===============================
+
+                if (password.length < 6) {
+
+                    message.style.color = "#ff6b6b";
+
+                    message.innerText =
+                        "Password must be at least 6 characters.";
+
+                    return;
+
+                }
+
+
+                if (password !== confirmPassword) {
+
+                    message.style.color = "#ff6b6b";
+
+                    message.innerText =
+                        "Passwords do not match.";
+
+                    return;
+
+                }
+
+
+                // ===============================
+                // SEND DATA TO BACKEND
+                // ===============================
+
+                try {
+
+                    const response = await fetch(
+                        "http://localhost:5000/api/signup",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                name: name,
+
+                                email: email,
+
+                                password: password
+
+                            })
+
+                        }
+                    );
+
+
+                    const data =
+                        await response.json();
+
+
+                    // ===============================
+                    // SUCCESS
+                    // ===============================
+
+                    if (response.ok) {
+
+                        message.style.color = "#22e6b8";
+
+                        message.innerText =
+                            "Account created successfully! 🎉";
+
+
+                        document
+                            .getElementById("signupForm")
+                            .reset();
+
+
+                        setTimeout(() => {
+
+                            window.location.href =
+                                "login.html";
+
+                        }, 1200);
+
+
+                    }
+
+                    // ===============================
+                    // ERROR
+                    // ===============================
+
+                    else {
+
+                        message.style.color = "#ff6b6b";
+
+                        message.innerText =
+                            data.message ||
+                            "Signup failed.";
+
+                    }
+
+
+                } catch (error) {
+
+                    console.log(
+                        "Signup Error:",
+                        error
+                    );
+
+                    message.style.color = "#ff6b6b";
+
+                    message.innerText =
+                        "Unable to connect to the server.";
+
+                }
+
+            });
+
+    </script>
+
+
+</body>
+
+</html>

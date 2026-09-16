@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Profile - KrishLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0b1020;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px;
+            background: #11182d;
+            border: 1px solid #263252;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #9ca8c7;
+            font-size: 15px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            color: #aeb8d0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #303d60;
+            background: #0b1020;
+            color: white;
+            outline: none;
+            font-size: 15px;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #6c63ff;
+        }
+
+        .subjects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .subject {
+            padding: 12px 18px;
+            border: 1px solid #303d60;
+            border-radius: 10px;
+            background: #0b1020;
+            color: #cbd3e8;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .subject:hover {
+            border-color: #6c63ff;
+        }
+
+        .subject.selected {
+            background: #6c63ff;
+            border-color: #6c63ff;
+            color: white;
+        }
+
+        .time-options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .time-option {
+            padding: 13px 8px;
+            text-align: center;
+            border: 1px solid #303d60;
+            border-radius: 10px;
+            background: #0b1020;
+            cursor: pointer;
+            color: #cbd3e8;
+        }
+
+        .time-option:hover {
+            border-color: #6c63ff;
+        }
+
+        .time-option.selected {
+            background: #6c63ff;
+            border-color: #6c63ff;
+            color: white;
+        }
+
+        .goals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .goal {
+            padding: 16px;
+            border: 1px solid #303d60;
+            border-radius: 12px;
+            background: #0b1020;
+            cursor: pointer;
+            color: #cbd3e8;
+            transition: 0.2s;
+        }
+
+        .goal:hover {
+            border-color: #6c63ff;
+        }
+
+        .goal.selected {
+            background: #6c63ff;
+            border-color: #6c63ff;
+            color: white;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 12px;
+            background: #6c63ff;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .save-btn:hover {
+            background: #574fff;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #9ca8c7;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back:hover {
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 25px 20px;
+            }
+
+            .time-options {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .goals {
+                grid-template-columns: 1fr;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Complete Your Study Profile 🎓</h1>
+            <p>Tell KrishLearn about your study preferences.</p>
+        </div>
+
+
+        <!-- EDUCATION -->
+
+        <div class="section">
+
+            <h2>Education Details</h2>
+
+            <label for="education">Education Level</label>
+
+            <select id="education">
+
+                <option value="">Select Education Level</option>
+
+                <option value="School">
+                    School
+                </option>
+
+                <option value="College">
+                    College
+                </option>
+
+                <option value="University">
+                    University
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- COURSE -->
+
+        <div class="section">
+
+            <label for="course">Course / Class</label>
+
+            <input
+                type="text"
+                id="course"
+                placeholder="Example: BCA, B.Tech, Class 12, MCA"
+            >
+
+        </div>
+
+
+        <!-- SUBJECTS -->
+
+        <div class="section">
+
+            <h2>Select Your Subjects</h2>
+
+            <div class="subjects">
+
+                <div
+                    class="subject"
+                    data-value="Mathematics"
+                >
+                    Mathematics
+                </div>
+
+                <div
+                    class="subject"
+                    data-value="Computer Science"
+                >
+                    Computer Science
+                </div>
+
+                <div
+                    class="subject"
+                    data-value="Physics"
+                >
+                    Physics
+                </div>
+
+                <div
+                    class="subject"
+                    data-value="Chemistry"
+                >
+                    Chemistry
+                </div>
+
+                <div
+                    class="subject"
+                    data-value="Programming"
+                >
+                    Programming
+                </div>
+
+                <div
+                    class="subject"
+                    data-value="Other"
+                >
+                    Other
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STUDY TIME -->
+
+        <div class="section">
+
+            <h2>Daily Study Time</h2>
+
+            <div class="time-options">
+
+                <div
+                    class="time-option"
+                    data-value="1 hour"
+                >
+                    1 Hour
+                </div>
+
+                <div
+                    class="time-option"
+                    data-value="2 hours"
+                >
+                    2 Hours
+                </div>
+
+                <div
+                    class="time-option"
+                    data-value="3 hours"
+                >
+                    3 Hours
+                </div>
+
+                <div
+                    class="time-option"
+                    data-value="4 hours"
+                >
+                    4 Hours
+                </div>
+
+                <div
+                    class="time-option"
+                    data-value="5+ hours"
+                >
+                    5+ Hours
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GOAL -->
+
+        <div class="section">
+
+            <h2>Your Main Goal</h2>
+
+            <div class="goals">
+
+                <div
+                    class="goal"
+                    data-value="Exam Preparation"
+                >
+                    📚 Exam Preparation
+                </div>
+
+                <div
+                    class="goal"
+                    data-value="Placement Preparation"
+                >
+                    💼 Placement Preparation
+                </div>
+
+                <div
+                    class="goal"
+                    data-value="Improve Concepts"
+                >
+                    🧠 Improve Concepts
+                </div>
+
+                <div
+                    class="goal"
+                    data-value="Learn New Skills"
+                >
+                    🚀 Learn New Skills
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SAVE -->
+
+        <button
+            class="save-btn"
+            onclick="saveProfile()"
+        >
+            Save Study Profile
+        </button>
+
+
+        <a
+            href="/pages/backend/dashboard.html"
+            class="back"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <script>
+
+        // ===============================
+        // SELECTED SUBJECTS
+        // ===============================
+
+        const selectedSubjects = new Set();
+
+
+        document.querySelectorAll(".subject").forEach(subject => {
+
+            subject.addEventListener("click", () => {
+
+                const value = subject.dataset.value;
+
+                subject.classList.toggle("selected");
+
+                if (selectedSubjects.has(value)) {
+
+                    selectedSubjects.delete(value);
+
+                } else {
+
+                    selectedSubjects.add(value);
+
+                }
+
+            });
+
+        });
+
+
+        // ===============================
+        // STUDY TIME SELECTION
+        // ===============================
+
+        let selectedStudyTime = "";
+
+
+        document.querySelectorAll(".time-option").forEach(option => {
+
+            option.addEventListener("click", () => {
+
+                document.querySelectorAll(".time-option").forEach(item => {
+
+                    item.classList.remove("selected");
+
+                });
+
+                option.classList.add("selected");
+
+                selectedStudyTime = option.dataset.value;
+
+            });
+
+        });
+
+
+        // ===============================
+        // GOAL SELECTION
+        // ===============================
+
+        document.querySelectorAll(".goal").forEach(goal => {
+
+            goal.addEventListener("click", () => {
+
+                document.querySelectorAll(".goal").forEach(item => {
+
+                    item.classList.remove("selected");
+
+                });
+
+                goal.classList.add("selected");
+
+            });
+
+        });
+
+
+        // ===============================
+        // SAVE PROFILE
+        // ===============================
+
+        async function saveProfile() {
+
+            const education =
+                document.getElementById("education").value;
+
+            const course =
+                document.getElementById("course").value.trim();
+
+
+            const selectedGoal =
+                document.querySelector(".goal.selected");
+
+
+            // Validation
+
+            if (
+                !education ||
+                !course ||
+                selectedSubjects.size === 0 ||
+                !selectedStudyTime ||
+                !selectedGoal
+            ) {
+
+                alert("Please complete your study profile first.");
+
+                return;
+
+            }
+
+
+            const studyGoal =
+                selectedGoal.dataset.value;
+
+
+            // Get logged-in user
+
+            const storedUser =
+                localStorage.getItem("user");
+
+
+            if (!storedUser) {
+
+                alert("Please login first.");
+
+                window.location.href =
+                    "/pages/backend/login.html";
+
+                return;
+
+            }
+
+
+            const user =
+                JSON.parse(storedUser);
+
+
+            try {
+
+                // Send profile to backend
+
+                const response = await fetch(
+                    "http://localhost:5000/api/profile",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            email: user.email,
+
+                            education: education,
+
+                            course: course,
+
+                            subjects:
+                                Array.from(selectedSubjects),
+
+                            studyTime:
+                                selectedStudyTime,
+
+                            studyGoal:
+                                studyGoal
+
+                        })
+
+                    }
+                );
+
+
+                const data =
+                    await response.json();
+
+
+                if (response.ok) {
+
+                    alert(
+                        "Study profile saved successfully! 🎉"
+                    );
+
+
+                    // Dashboard par redirect
+
+                    window.location.href =
+                        "/pages/backend/dashboard.html";
+
+                } else {
+
+                    alert(
+                        data.message ||
+                        "Failed to save profile."
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.log(
+                    "Profile Error:",
+                    error
+                );
+
+                alert(
+                    "Server se connection nahi ho pa raha."
+                );
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

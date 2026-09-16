@@ -1,0 +1,617 @@
+/* =========================================
+   KRISHLEARN WELCOME PAGE
+========================================= */
+
+
+/* ---------- RESET ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ---------- BODY ---------- */
+
+body {
+    min-height: 100vh;
+
+    font-family: "Inter", sans-serif;
+
+    color: #ffffff;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(45, 91, 190, 0.16),
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #070a12 0%,
+            #0a0f1c 50%,
+            #070a12 100%
+        );
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+/* ---------- BACKGROUND GLOW ---------- */
+
+.glow {
+    position: fixed;
+
+    width: 380px;
+    height: 380px;
+
+    border-radius: 50%;
+
+    filter: blur(120px);
+
+    opacity: 0.13;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+.glow-left {
+    left: -260px;
+    bottom: 10%;
+
+    background: #1669ff;
+}
+
+
+.glow-right {
+    right: -260px;
+    top: 10%;
+
+    background: #5b38ff;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+    height: 82px;
+
+    padding: 0 7%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    background: rgba(6, 9, 17, 0.72);
+
+    backdrop-filter: blur(15px);
+
+    position: relative;
+
+    z-index: 5;
+}
+
+
+/* ---------- BRAND ---------- */
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+
+.brand-icon {
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #258fff,
+            #625dff
+        );
+
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 7px 25px rgba(44, 107, 255, 0.22);
+}
+
+
+.brand-text h1 {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    letter-spacing: -0.5px;
+}
+
+
+.brand-text h1 span {
+    color: #42adff;
+}
+
+
+.brand-text p {
+    margin-top: 5px;
+
+    color: #727b8f;
+
+    font-size: 9px;
+
+    font-weight: 500;
+}
+
+
+/* ---------- TOP LOGIN ---------- */
+
+.top-login {
+    height: 37px;
+
+    padding: 0 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid rgba(91, 119, 190, 0.35);
+
+    border-radius: 8px;
+
+    background: rgba(31, 47, 85, 0.20);
+
+    color: #b0bce0;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+
+.top-login:hover {
+    color: #ffffff;
+
+    border-color: #4b7cff;
+
+    background: rgba(48, 71, 137, 0.30);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+.main {
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   WELCOME
+========================================= */
+
+.welcome {
+    width: 100%;
+
+    max-width: 720px;
+
+    padding: 30px 25px;
+
+    text-align: center;
+}
+
+
+/* ---------- LABEL ---------- */
+
+.welcome-label {
+    display: inline-block;
+
+    padding: 7px 14px;
+
+    margin-bottom: 22px;
+
+    border: 1px solid rgba(77, 113, 221, 0.30);
+
+    border-radius: 30px;
+
+    background: rgba(35, 57, 120, 0.16);
+
+    color: #8fa8ff;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.welcome h2 {
+    font-family: "Poppins", sans-serif;
+
+    font-size: clamp(46px, 5.5vw, 62px);
+
+    font-weight: 700;
+
+    line-height: 1.12;
+
+    letter-spacing: -2.2px;
+
+    color: #ffffff;
+}
+
+
+.welcome h2 span {
+    display: block;
+
+    margin-top: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #5abaff,
+            #7778ff
+        );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* =========================================
+   INTRO
+========================================= */
+
+.intro {
+    max-width: 590px;
+
+    margin: 22px auto 0;
+
+    color: #8a93a7;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    font-weight: 400;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.actions {
+    margin-top: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+/* ---------- GET STARTED ---------- */
+
+.get-started {
+    min-width: 145px;
+
+    height: 46px;
+
+    padding: 0 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    border-radius: 9px;
+
+    border: 1px solid #478fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2bc5ff,
+            #536fff
+        );
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 9px 28px rgba(44, 105, 255, 0.23);
+
+    transition: 0.25s ease;
+}
+
+
+.get-started span {
+    font-size: 16px;
+
+    transition: 0.2s ease;
+}
+
+
+.get-started:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 13px 34px rgba(44, 105, 255, 0.35);
+}
+
+
+.get-started:hover span {
+    transform: translateX(3px);
+}
+
+
+/* =========================================
+   ACCOUNT TEXT
+========================================= */
+
+.account-text {
+    margin-top: 17px;
+
+    color: #626c80;
+
+    font-size: 11px;
+}
+
+
+.account-text a {
+    margin-left: 4px;
+
+    color: #65aaff;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+
+.account-text a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================
+   BOTTOM TEXT
+========================================= */
+
+.bottom-text {
+    margin-top: 38px;
+
+    color: #4c5669;
+
+    font-size: 9px;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.055);
+
+    background: rgba(5, 8, 15, 0.55);
+
+    color: #414a5b;
+
+    font-size: 9px;
+
+    position: relative;
+
+    z-index: 3;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .header {
+        padding: 0 5%;
+    }
+
+
+    .welcome h2 {
+        font-size: 50px;
+    }
+
+
+    .intro {
+        max-width: 540px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+
+    .header {
+        height: 74px;
+
+        padding: 0 5%;
+    }
+
+
+    .brand-icon {
+        width: 35px;
+        height: 35px;
+
+        font-size: 15px;
+    }
+
+
+    .brand-text h1 {
+        font-size: 18px;
+    }
+
+
+    .brand-text p {
+        font-size: 7px;
+    }
+
+
+    .top-login {
+        height: 33px;
+
+        padding: 0 14px;
+
+        font-size: 9px;
+    }
+
+
+    .welcome {
+        padding: 45px 20px 55px;
+    }
+
+
+    .welcome-label {
+        font-size: 8px;
+
+        margin-bottom: 19px;
+    }
+
+
+    .welcome h2 {
+        font-size: 39px;
+
+        letter-spacing: -1.4px;
+    }
+
+
+    .intro {
+        margin-top: 18px;
+
+        font-size: 12px;
+
+        line-height: 1.75;
+    }
+
+
+    .actions {
+        margin-top: 27px;
+    }
+
+
+    .get-started {
+        height: 45px;
+
+        min-width: 140px;
+    }
+
+
+    .account-text {
+        font-size: 10px;
+    }
+
+
+    .bottom-text {
+        margin-top: 30px;
+
+        font-size: 8px;
+    }
+
+
+    footer {
+        height: 45px;
+
+        font-size: 8px;
+    }
+
+}

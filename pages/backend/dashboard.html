@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - KrishLearn</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #071426;
+            color: #ffffff;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            min-height: 100vh;
+            background: #091a31;
+            border-right: 1px solid rgba(255,255,255,0.08);
+            padding: 25px 18px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 10px 30px;
+        }
+
+        .brand-icon {
+            font-size: 38px;
+        }
+
+        .brand h2 {
+            font-size: 22px;
+        }
+
+        .brand p {
+            font-size: 10px;
+            color: #8fa7c7;
+            margin-top: 4px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 15px;
+            border-radius: 12px;
+            color: #a9bad4;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: linear-gradient(90deg, #2949b9, #243d91);
+            color: white;
+        }
+
+        .menu-icon {
+            font-size: 20px;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+            background: #102544;
+            border-radius: 15px;
+            padding: 18px;
+            color: #dce8ff;
+        }
+
+        .sidebar-bottom p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            padding: 22px 30px 40px;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .search {
+            width: 55%;
+            background: #10284c;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 13px 18px;
+            color: #aebfda;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search:focus {
+            border-color: #4264e8;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification {
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8b72ff, #27b9ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .profile-name {
+            font-weight: bold;
+        }
+
+        /* WELCOME */
+
+        .welcome-banner {
+            min-height: 220px;
+            border-radius: 22px;
+            padding: 30px;
+            background:
+                linear-gradient(
+                    120deg,
+                    #5739e9,
+                    #267ce9 55%,
+                    #22c9e8
+                );
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+
+        .welcome-text {
+            max-width: 65%;
+        }
+
+        .welcome-text h1 {
+            font-size: 34px;
+            margin-bottom: 12px;
+        }
+
+        .welcome-text p {
+            color: #e3edff;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.17);
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .robot {
+            font-size: 115px;
+            margin-right: 45px;
+        }
+
+        /* GRID */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 22px;
+        }
+
+        .panel {
+            background: #0d213d;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .panel-title h2 {
+            font-size: 18px;
+        }
+
+        .view-all {
+            color: #77a6ff;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* PROGRESS */
+
+        .progress-section {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .circle {
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            background:
+                conic-gradient(
+                    #20d9dc 0%,
+                    #20d9dc var(--progress, 0%),
+                    #1c365d var(--progress, 0%),
+                    #1c365d 100%
+                );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle-inner {
+            width: 105px;
+            height: 105px;
+            background: #0d213d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .stat {
+            background: #112a4b;
+            padding: 18px 10px;
+            border-radius: 13px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .stat span {
+            font-size: 12px;
+            color: #8da5c6;
+        }
+
+        /* AI MENTOR */
+
+        .ai-card {
+            background:
+                linear-gradient(
+                    145deg,
+                    #152d55,
+                    #111e3a
+                );
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 17px;
+        }
+
+        .ai-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: #253d8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+        }
+
+        .online {
+            color: #29e5a2;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .ai-card p {
+            color: #a9bad4;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .ai-button {
+            width: 100%;
+            border: none;
+            padding: 13px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #6545ef, #287fe8);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .ai-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* STUDY PROFILE */
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .profile-row {
+            background: #112a4b;
+            border-radius: 12px;
+            padding: 13px 15px;
+        }
+
+        .profile-label {
+            display: block;
+            color: #8fa7c7;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .profile-value {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        .edit-profile-btn {
+            width: 100%;
+            margin-top: 15px;
+            border: none;
+            padding: 12px;
+            border-radius: 11px;
+            background: linear-gradient(90deg, #6545ef, #287fe8);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* STUDY GOAL */
+
+        .goal-text {
+            color: #d8e4f7;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #1d385e;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #19d5a1, #20cde0);
+            border-radius: 20px;
+            transition: width 0.6s ease;
+        }
+
+        .progress-label {
+            text-align: right;
+            margin-top: 7px;
+            color: #8fa7c7;
+            font-size: 13px;
+        }
+
+        /* QUICK ACTIONS */
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+        }
+
+        .action {
+            min-height: 110px;
+            border-radius: 15px;
+            padding: 17px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .action:hover {
+            transform: translateY(-4px);
+        }
+
+        .action-icon {
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        .action h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .action p {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .action:nth-child(1) {
+            background: linear-gradient(135deg, #9d38dc, #6743e8);
+        }
+
+        .action:nth-child(2) {
+            background: linear-gradient(135deg, #219ce9, #2675e8);
+        }
+
+        .action:nth-child(3) {
+            background: linear-gradient(135deg, #10bd96, #17b9c9);
+        }
+
+        .action:nth-child(4) {
+            background: linear-gradient(135deg, #ef9635, #f16d35);
+        }
+
+        /* CONTINUE LEARNING */
+
+        .course {
+            background: #112a4b;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 17px;
+        }
+
+        .course-image {
+            width: 100px;
+            height: 80px;
+            background: linear-gradient(135deg, #164e72, #267b8c);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+
+        .course-info {
+            flex: 1;
+        }
+
+        .course-tag {
+            display: inline-block;
+            background: #1874ae;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 11px;
+            margin-bottom: 8px;
+        }
+
+        .course-info h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .mini-progress {
+            height: 7px;
+            background: #243d60;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .mini-progress div {
+            width: 0%;
+            height: 100%;
+            background: #22cddd;
+            transition: width 0.6s ease;
+        }
+
+        .continue-btn {
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            background: #6545ef;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* STREAK */
+
+        .streak-number {
+            font-size: 35px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .streak-days {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .day {
+            text-align: center;
+            color: #7188a7;
+            font-size: 11px;
+        }
+
+        .day-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 6px auto;
+            background: #1b3559;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .day.done .day-circle {
+            background: #18c99a;
+            color: white;
+        }
+
+        /* RECENT ACTIVITY */
+
+        .activity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            background: #163258;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info p {
+            font-size: 13px;
+        }
+
+        .activity-info span {
+            font-size: 11px;
+            color: #7188a7;
+        }
+
+        /* LOGOUT */
+
+        .logout-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            background: transparent;
+            color: #aebfd7;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #1a3152;
+            color: white;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .robot {
+                margin-right: 10px;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .topbar {
+                gap: 10px;
+            }
+
+            .search {
+                width: 70%;
+            }
+
+            .welcome-banner {
+                padding: 23px;
+            }
+
+            .welcome-text {
+                max-width: 100%;
+            }
+
+            .welcome-text h1 {
+                font-size: 27px;
+            }
+
+            .robot {
+                display: none;
+            }
+
+            .progress-section {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+
+            .stats {
+                width: 100%;
+            }
+
+            .course {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .course-image {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">🎓</div>
+
+            <div>
+
+                <h2>KrishLearn</h2>
+
+                <p>
+                    Learn Today • Build Tomorrow
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="menu">
+
+            <div
+                class="menu-item active"
+                onclick="goDashboard()"
+            >
+
+                <span class="menu-icon">🏠</span>
+
+                Dashboard
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="openPlanner()"
+            >
+
+                <span class="menu-icon">📅</span>
+
+                Study Plan
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="openMentor()"
+            >
+
+                <span class="menu-icon">🤖</span>
+
+                AI Mentor
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="openNotes()"
+            >
+
+                <span class="menu-icon">📄</span>
+
+                Notes
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="openQuiz()"
+            >
+
+                <span class="menu-icon">💡</span>
+
+                Quizzes
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="openProgress()"
+            >
+
+                <span class="menu-icon">📊</span>
+
+                Progress
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="openProfile()"
+            >
+
+                <span class="menu-icon">👤</span>
+
+                Profile
+
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            ✨
+
+            <p>
+
+                Small steps every day lead
+                to big results!
+
+            </p>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <input
+                class="search"
+                type="text"
+                placeholder="🔍 Search topics, notes, questions..."
+                onkeydown="handleSearch(event)"
+            >
+
+
+            <div class="profile">
+
+                <span class="notification">
+                    🔔
+                </span>
+
+
+                <div class="avatar">
+                    👨🏻‍🎓
+                </div>
+
+
+                <span
+                    class="profile-name"
+                    id="profileName"
+                >
+                    Student
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome-banner">
+
+            <div class="welcome-text">
+
+                <h1 id="welcomeMessage">
+                    Welcome back! 👋
+                </h1>
+
+
+                <p>
+
+                    Your future is built by what you learn today.
+                    Keep going and make every study session count.
+
+                </p>
+
+
+                <div class="badges">
+
+                    <span
+                        class="badge"
+                        id="streakBadge"
+                    >
+                        🔥 3 Day Streak
+                    </span>
+
+
+                    <span class="badge">
+                        ⭐ Learning Mode: Active
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="robot">
+                🤖
+            </div>
+
+        </section>
+
+
+
+        <!-- MAIN GRID -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- LEFT COLUMN -->
+
+            <div>
+
+
+                <!-- PROGRESS -->
+
+                <section class="panel">
+
+                    <div class="panel-title">
+
+                        <h2>
+                            📊 Your Progress
+                        </h2>
+
+                        <span
+                            class="view-all"
+                            onclick="openProgress()"
+                        >
+                            View Details →
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-section">
+
+
+                        <div
+                            class="circle"
+                            id="progressCircle"
+                        >
+
+                            <div
+                                class="circle-inner"
+                                id="progressPercentage"
+                            >
+                                0%
+                            </div>
+
+                        </div>
+
+
+                        <div class="stats">
+
+
+                            <div class="stat">
+
+                                <div class="stat-icon">
+                                    📖
+                                </div>
+
+                                <strong id="totalQuestions">
+                                    0
+                                </strong>
+
+                                <span>
+                                    Questions Attempted
+                                </span>
+
+                            </div>
+
+
+                            <div class="stat">
+
+                                <div class="stat-icon">
+                                    💡
+                                </div>
+
+                                <strong id="quizAttempts">
+                                    0
+                                </strong>
+
+                                <span>
+                                    Quizzes Taken
+                                </span>
+
+                            </div>
+
+
+                            <div class="stat">
+
+                                <div class="stat-icon">
+                                    🏆
+                                </div>
+
+                                <strong id="correctAnswers">
+                                    0
+                                </strong>
+
+                                <span>
+                                    Correct Answers
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- CONTINUE LEARNING -->
+
+                <section
+                    class="panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-title">
+
+                        <h2>
+                            📚 Continue Learning
+                        </h2>
+
+                    </div>
+
+
+                    <div class="course">
+
+                        <div
+                            class="course-image"
+                            id="courseIcon"
+                        >
+                            📐
+                        </div>
+
+
+                        <div class="course-info">
+
+                            <span
+                                class="course-tag"
+                                id="courseTag"
+                            >
+                                Mathematics
+                            </span>
+
+
+                            <h3 id="courseTitle">
+                                Start Learning
+                            </h3>
+
+
+                            <div class="mini-progress">
+
+                                <div
+                                    id="courseProgress"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            class="continue-btn"
+                            onclick="openNotes()"
+                        >
+                            ▶ Continue
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- RECENT ACTIVITY -->
+
+                <section
+                    class="panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-title">
+
+                        <h2>
+                            🕘 Recent Activity
+                        </h2>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            ✓
+                        </div>
+
+                        <div class="activity-info">
+
+                            <p>
+                                Quiz progress is being tracked
+                            </p>
+
+                            <span>
+                                MongoDB connected
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            📄
+                        </div>
+
+                        <div class="activity-info">
+
+                            <p>
+                                AI Notes available
+                            </p>
+
+                            <span>
+                                Start learning a topic
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            💡
+                        </div>
+
+                        <div class="activity-info">
+
+                            <p>
+                                AI Quiz available
+                            </p>
+
+                            <span>
+                                Test your knowledge
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+
+
+            <!-- RIGHT COLUMN -->
+
+            <div>
+
+
+                <!-- AI MENTOR -->
+
+                <section class="panel ai-card">
+
+                    <div class="ai-header">
+
+                        <div class="ai-icon">
+                            🤖
+                        </div>
+
+
+                        <div>
+
+                            <h2>
+                                Your AI Mentor
+                            </h2>
+
+                            <div class="online">
+                                ● Online
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <p>
+
+                        Hi! I'm your AI Study Mentor.
+                        Ask me anything — explain topics,
+                        solve doubts, or plan your study.
+
+                    </p>
+
+
+                    <button
+                        class="ai-button"
+                        onclick="openMentor()"
+                    >
+
+                        💬 Chat with AI →
+
+                    </button>
+
+                </section>
+
+
+
+                <!-- STUDY PROFILE -->
+
+                <section
+                    class="panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-title">
+
+                        <h2>
+                            👤 Study Profile
+                        </h2>
+
+                    </div>
+
+
+                    <div class="profile-info">
+
+
+                        <div class="profile-row">
+
+                            <span class="profile-label">
+                                Education
+                            </span>
+
+                            <span
+                                class="profile-value"
+                                id="profileEducation"
+                            >
+                                Loading...
+                            </span>
+
+                        </div>
+
+
+                        <div class="profile-row">
+
+                            <span class="profile-label">
+                                Course
+                            </span>
+
+                            <span
+                                class="profile-value"
+                                id="profileCourse"
+                            >
+                                Loading...
+                            </span>
+
+                        </div>
+
+
+                        <div class="profile-row">
+
+                            <span class="profile-label">
+                                Subjects
+                            </span>
+
+                            <span
+                                class="profile-value"
+                                id="profileSubjects"
+                            >
+                                Loading...
+                            </span>
+
+                        </div>
+
+
+                        <div class="profile-row">
+
+                            <span class="profile-label">
+                                Daily Study Time
+                            </span>
+
+                            <span
+                                class="profile-value"
+                                id="profileStudyTime"
+                            >
+                                Loading...
+                            </span>
+
+                        </div>
+
+
+                        <div class="profile-row">
+
+                            <span class="profile-label">
+                                Study Goal
+                            </span>
+
+                            <span
+                                class="profile-value"
+                                id="profileStudyGoal"
+                            >
+                                Loading...
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <button
+                        class="edit-profile-btn"
+                        onclick="openProfile()"
+                    >
+
+                        ✏️ Edit Study Profile
+
+                    </button>
+
+                </section>
+
+
+
+                <!-- STUDY GOAL -->
+
+                <section
+                    class="panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-title">
+
+                        <h2>
+                            🎯 Study Goal
+                        </h2>
+
+                    </div>
+
+
+                    <p
+                        class="goal-text"
+                        id="goalText"
+                    >
+
+                        Complete your current study goals
+                        and maintain consistent progress.
+
+                    </p>
+
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            id="goalProgress"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        class="progress-label"
+                        id="goalProgressLabel"
+                    >
+                        0% completed
+                    </div>
+
+                </section>
+
+
+
+                <!-- QUICK ACTIONS -->
+
+                <section
+                    class="panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-title">
+
+                        <h2>
+                            ⚡ Quick Actions
+                        </h2>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+
+                        <div
+                            class="action"
+                            onclick="openNotes()"
+                        >
+
+                            <div class="action-icon">
+                                📄
+                            </div>
+
+                            <h3>
+                                AI Notes
+                            </h3>
+
+                            <p>
+                                Get smart notes
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="action"
+                            onclick="openMentor()"
+                        >
+
+                            <div class="action-icon">
+                                💬
+                            </div>
+
+                            <h3>
+                                Explain Topic
+                            </h3>
+
+                            <p>
+                                Ask anything
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="action"
+                            onclick="openQuiz()"
+                        >
+
+                            <div class="action-icon">
+                                💡
+                            </div>
+
+                            <h3>
+                                Take Quiz
+                            </h3>
+
+                            <p>
+                                Test your knowledge
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="action"
+                            onclick="openPlanner()"
+                        >
+
+                            <div class="action-icon">
+                                📅
+                            </div>
+
+                            <h3>
+                                Study Planner
+                            </h3>
+
+                            <p>
+                                Plan your day
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- STUDY STREAK -->
+
+                <section
+                    class="panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-title">
+
+                        <h2>
+                            🔥 Study Streak
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        class="streak-number"
+                        id="streakNumber"
+                    >
+                        3 Days
+                    </div>
+
+
+                    <p style="color:#8fa7c7;">
+                        Keep it going! 💪
+                    </p>
+
+
+                    <div class="streak-days">
+
+                        <div class="day done">
+                            Mon
+                            <div class="day-circle">✓</div>
+                        </div>
+
+                        <div class="day done">
+                            Tue
+                            <div class="day-circle">✓</div>
+                        </div>
+
+                        <div class="day done">
+                            Wed
+                            <div class="day-circle">✓</div>
+                        </div>
+
+                        <div class="day">
+                            Thu
+                            <div class="day-circle"></div>
+                        </div>
+
+                        <div class="day">
+                            Fri
+                            <div class="day-circle"></div>
+                        </div>
+
+                        <div class="day">
+                            Sat
+                            <div class="day-circle"></div>
+                        </div>
+
+                        <div class="day">
+                            Sun
+                            <div class="day-circle"></div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- LOGOUT -->
+
+                <button
+                    class="logout-btn"
+                    onclick="logout()"
+                >
+
+                    🚪 Logout
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<script>
+
+
+// =====================================
+// GET LOGGED-IN USER
+// =====================================
+
+const storedUser =
+    localStorage.getItem("user");
+
+
+// =====================================
+// CHECK LOGIN
+// =====================================
+
+if (!storedUser) {
+
+    window.location.href =
+        "/pages/login.html";
+
+}
+
+
+// =====================================
+// LOAD USER
+// =====================================
+
+else {
+
+    try {
+
+        const user =
+            JSON.parse(storedUser);
+
+
+        if (!user.email) {
+
+            console.log(
+                "User email not found in localStorage"
+            );
+
+        }
+
+
+        document
+            .getElementById("welcomeMessage")
+            .textContent =
+            "Welcome back, " +
+            (user.name || "Student") +
+            "! 👋";
+
+
+        document
+            .getElementById("profileName")
+            .textContent =
+            user.name || "Student";
+
+
+        // Load profile
+
+        if (user.email) {
+
+            loadUserProfile(
+                user.email
+            );
+
+            loadProgress(
+                user.email
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "User data error:",
+            error
+        );
+
+        localStorage.removeItem("user");
+
+        window.location.href =
+            "/pages/login.html";
+
+    }
+
+}
+
+
+
+// =====================================
+// LOAD PROFILE
+// =====================================
+
+async function loadUserProfile(email) {
+
+    try {
+
+        const response =
+            await fetch(
+                "http://localhost:5000/api/profile/" +
+                encodeURIComponent(email)
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            console.log(
+                "Profile Error:",
+                data.message
+            );
+
+            return;
+
+        }
+
+
+        // =================================
+        // EDUCATION
+        // =================================
+
+        document
+            .getElementById("profileEducation")
+            .textContent =
+            data.education || "Not set";
+
+
+        // =================================
+        // COURSE
+        // =================================
+
+        document
+            .getElementById("profileCourse")
+            .textContent =
+            data.course || "Not set";
+
+
+        // =================================
+        // SUBJECTS
+        // =================================
+
+        let subjectsText =
+            "Not set";
+
+
+        if (
+            data.subjects &&
+            data.subjects.length > 0
+        ) {
+
+            subjectsText =
+                data.subjects.join(", ");
+
+        }
+
+
+        document
+            .getElementById("profileSubjects")
+            .textContent =
+            subjectsText;
+
+
+        // =================================
+        // STUDY TIME
+        // =================================
+
+        document
+            .getElementById("profileStudyTime")
+            .textContent =
+            data.studyTime || "Not set";
+
+
+        // =================================
+        // STUDY GOAL
+        // =================================
+
+        document
+            .getElementById("profileStudyGoal")
+            .textContent =
+            data.studyGoal || "Not set";
+
+
+        // =================================
+        // GOAL TEXT
+        // =================================
+
+        if (data.studyGoal) {
+
+            document
+                .getElementById("goalText")
+                .textContent =
+                "Your current goal is: " +
+                data.studyGoal +
+                ". Keep learning consistently and make progress every day!";
+
+        }
+
+
+        // =================================
+        // COURSE
+        // =================================
+
+        if (
+            data.subjects &&
+            data.subjects.length > 0
+        ) {
+
+            document
+                .getElementById("courseTag")
+                .textContent =
+                data.subjects[0];
+
+
+            document
+                .getElementById("courseTitle")
+                .textContent =
+                data.subjects[0] +
+                " Learning";
+
+
+            document
+                .getElementById("courseProgress")
+                .style.width =
+                "20%";
+
+        }
+
+
+        // =================================
+        // STUDY TIME
+        // =================================
+
+        if (data.studyTime) {
+
+            // Keep profile value as it is.
+            // Study time is already shown above.
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "Profile fetch error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+// =====================================
+// LOAD PROGRESS
+// =====================================
+
+async function loadProgress(email) {
+
+    try {
+
+        const response =
+            await fetch(
+                "http://localhost:5000/api/progress/" +
+                encodeURIComponent(email)
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            console.log(
+                "Progress Error:",
+                data.message
+            );
+
+            return;
+
+        }
+
+
+        const attempts =
+            Number(data.quizAttempts || 0);
+
+
+        const totalQuestions =
+            Number(data.totalQuestions || 0);
+
+
+        const correctAnswers =
+            Number(data.correctAnswers || 0);
+
+
+        const averageScore =
+            Number(data.averageScore || 0);
+
+
+        // =================================
+        // QUIZ ATTEMPTS
+        // =================================
+
+        document
+            .getElementById("quizAttempts")
+            .textContent =
+            attempts;
+
+
+        // =================================
+        // TOTAL QUESTIONS
+        // =================================
+
+        document
+            .getElementById("totalQuestions")
+            .textContent =
+            totalQuestions;
+
+
+        // =================================
+        // CORRECT ANSWERS
+        // =================================
+
+        document
+            .getElementById("correctAnswers")
+            .textContent =
+            correctAnswers;
+
+
+        // =================================
+        // CIRCLE PROGRESS
+        // =================================
+
+        document
+            .getElementById("progressPercentage")
+            .textContent =
+            averageScore + "%";
+
+
+        document
+            .getElementById("progressCircle")
+            .style.setProperty(
+                "--progress",
+                averageScore + "%"
+            );
+
+
+        // =================================
+        // STUDY GOAL PROGRESS
+        // =================================
+
+        document
+            .getElementById("goalProgress")
+            .style.width =
+            averageScore + "%";
+
+
+        document
+            .getElementById("goalProgressLabel")
+            .textContent =
+            averageScore +
+            "% completed";
+
+
+        // =================================
+        // COURSE PROGRESS
+        // =================================
+
+        document
+            .getElementById("courseProgress")
+            .style.width =
+            averageScore + "%";
+
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "Progress fetch error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+// =====================================
+// NAVIGATION
+// =====================================
+
+function goDashboard() {
+
+    window.location.href =
+        "/pages/backend/dashboard.html";
+
+}
+
+
+function openProfile() {
+
+    window.location.href =
+        "/pages/backend/profile.html";
+
+}
+
+
+function openNotes() {
+
+    window.location.href =
+        "/pages/backend/topic.html";
+
+}
+
+
+function openQuiz() {
+
+    window.location.href =
+        "/pages/backend/quiz.html";
+
+}
+
+function openPlanner() {
+    window.location.href = "/pages/backend/planner.html";
+}
+
+
+function openMentor() {
+    window.location.href = "/pages/backend/mentor.html";
+}
+
+
+function openProgress() {
+
+    window.location.href =
+        "/pages/backend/progress.html";
+
+}
+
+
+
+// =====================================
+// SEARCH
+// =====================================
+
+function handleSearch(event) {
+
+    if (event.key === "Enter") {
+
+        const searchValue =
+            event.target.value.trim();
+
+
+        if (searchValue) {
+
+            localStorage.setItem(
+                "searchTopic",
+                searchValue
+            );
+
+
+            window.location.href =
+                "/pages/backend/topic.html";
+
+        }
+
+    }
+
+}
+
+
+
+// =====================================
+// LOGOUT
+// =====================================
+
+function logout() {
+
+    localStorage.removeItem("user");
+
+    localStorage.removeItem("userEmail");
+
+    window.location.href =
+        "/pages/login.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

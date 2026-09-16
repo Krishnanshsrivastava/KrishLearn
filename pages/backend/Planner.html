@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KrishLearn - AI Study Planner</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+        }
+
+        .back-btn {
+            background: #1e293b;
+            color: white;
+            border: 1px solid #334155;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #334155;
+        }
+
+        .planner-box {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .planner-box h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .description {
+            color: #94a3b8;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px 15px;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+            outline: none;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #64748b;
+        }
+
+        select option {
+            background: #0f172a;
+            color: white;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .generate-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .info {
+            margin-top: 15px;
+            color: #94a3b8;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        #planResult {
+            margin-top: 30px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #cbd5e1;
+            background: #0f172a;
+            border-radius: 12px;
+        }
+
+        .error {
+            background: #3f1d1d;
+            border: 1px solid #7f1d1d;
+            color: #fecaca;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .success {
+            background: #12351f;
+            border: 1px solid #166534;
+            color: #bbf7d0;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .plan-card {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 25px;
+        }
+
+        .plan-card > h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .plan-summary {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+
+        .plan-summary p {
+            margin: 7px 0;
+        }
+
+        .plan-summary strong {
+            color: white;
+        }
+
+        .progress-section {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-title {
+            font-weight: 600;
+        }
+
+        .progress-percent {
+            color: #93c5fd;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #0f172a;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #2563eb;
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+
+        .day-card {
+            background: #111827;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            transition: 0.2s;
+        }
+
+        .day-card:hover {
+            border-color: #475569;
+        }
+
+        .day-card.completed {
+            border-color: #2563eb;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1e293b;
+            padding: 15px 18px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .day-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .day-status {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .day-body {
+            padding: 20px;
+        }
+
+        .target-box {
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            display: block;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .target-text {
+            color: #cbd5e1;
+        }
+
+        .tasks-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .task-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin: 10px 0;
+            color: #cbd5e1;
+        }
+
+        .task-item::before {
+            content: "✓";
+            color: #93c5fd;
+            font-weight: bold;
+        }
+
+        .revision-box {
+            margin-top: 18px;
+            padding: 15px;
+            background: #1e293b;
+            border-radius: 9px;
+        }
+
+        .revision-text {
+            color: #cbd5e1;
+        }
+
+        .complete-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #0f172a;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .complete-btn:hover {
+            background: #1e293b;
+        }
+
+        .complete-btn.completed-btn {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .final-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .final-card h3 {
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .final-card p {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .planner-box {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>
+                📅 AI Study Planner
+            </h1>
+
+            <a href="dashboard.html" class="back-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- MAIN PLANNER -->
+
+        <div class="planner-box">
+
+            <h2>
+                Create Your Personalized Study Plan
+            </h2>
+
+            <p class="description">
+                Tell KrishLearn your study goal and choose
+                the duration. The AI will create a personalized
+                day-by-day plan using your saved study profile.
+            </p>
+
+
+            <!-- GOAL -->
+
+            <div class="form-group">
+
+                <label for="goal">
+                    🎯 What is your study goal?
+                </label>
+
+                <input
+                    type="text"
+                    id="goal"
+                    placeholder="Example: Prepare for NIMCET with strong Maths and Reasoning"
+                >
+
+            </div>
+
+
+            <!-- DAYS -->
+
+            <div class="form-group">
+
+                <label for="days">
+                    📆 Plan Duration
+                </label>
+
+                <select id="days">
+
+                    <option value="7">
+                        7 Days
+                    </option>
+
+                    <option value="14">
+                        14 Days
+                    </option>
+
+                    <option value="30">
+                        30 Days
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- GENERATE -->
+
+            <button
+                class="generate-btn"
+                id="generateBtn"
+                onclick="generatePlan()"
+            >
+                ✨ Generate Study Plan
+            </button>
+
+            <div class="info">
+                Your saved profile information will be used
+                to personalize the plan.
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div id="planResult"></div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // CURRENT PLAN ID
+        // ==========================================
+
+        let currentPlanId = "";
+
+// ==========================================
+// LOAD SAVED STUDY PLANS
+// ==========================================
+
+async function loadSavedPlans() {
+    try {
+
+        const userData = JSON.parse(
+            localStorage.getItem("user")
+        );
+
+        if (!userData || !userData.email) {
+            return;
+        }
+
+        const response = await fetch(
+            `http://localhost:5000/api/saved-plans/${encodeURIComponent(userData.email)}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message || "Unable to load saved plans"
+            );
+        }
+
+        console.log("Saved Plans:", data.plans);
+
+    } catch (error) {
+
+        console.error(
+            "Load Saved Plans Error:",
+            error
+        );
+    }
+}
+
+        // ==========================================
+        // GENERATE STUDY PLAN
+        // ==========================================
+
+        async function generatePlan() {
+
+            const goal =
+                document.getElementById("goal").value.trim();
+
+            const days =
+                document.getElementById("days").value;
+
+            const planResult =
+                document.getElementById("planResult");
+
+            const generateBtn =
+                document.getElementById("generateBtn");
+
+
+            // VALIDATE GOAL
+
+            if (!goal) {
+
+                alert("Please enter your study goal.");
+
+                return;
+            }
+
+
+            // GET USER
+
+            const userData =
+                JSON.parse(localStorage.getItem("user"));
+
+
+            if (!userData || !userData.email) {
+
+                planResult.innerHTML = `
+                    <div class="error">
+                        ❌ Please login again to use
+                        the Study Planner.
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            // CREATE PLAN ID
+
+            currentPlanId =
+                "plan_" +
+                userData.email +
+                "_" +
+                goal +
+                "_" +
+                days;
+
+
+            // LOADING
+
+            generateBtn.disabled = true;
+
+            generateBtn.innerText =
+                "Generating Plan... ⏳";
+
+
+            planResult.innerHTML = `
+                <div class="loading">
+                    🤖 KrishLearn AI is creating
+                    your personalized study plan...
+                    <br><br>
+                    This may take a few seconds.
+                </div>
+            `;
+
+
+            try {
+
+                // ==========================================
+                // GENERATE PLAN
+                // ==========================================
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/generate-plan",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email:
+                                    userData.email,
+
+                                goal:
+                                    goal,
+
+                                days:
+                                    days
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to generate study plan"
+                    );
+                }
+
+
+                // ==========================================
+                // SAVE PLAN TO MONGODB
+                // ==========================================
+
+                await savePlanToMongoDB(
+                    userData.email,
+                    goal,
+                    days,
+                    data.plan
+                );
+
+
+                // ==========================================
+                // DISPLAY PLAN
+                // ==========================================
+
+                displayPlan(
+                    data.plan,
+                    goal,
+                    days
+                );
+
+
+            } catch (error) {
+
+                console.log(
+                    "Planner Error:",
+                    error
+                );
+
+                planResult.innerHTML = `
+                    <div class="error">
+                        ❌ ${escapeHTML(error.message)}
+                    </div>
+                `;
+
+            } finally {
+
+                generateBtn.disabled = false;
+
+                generateBtn.innerText =
+                    "✨ Generate Study Plan";
+            }
+        }
+
+
+        // ==========================================
+        // SAVE PLAN TO MONGODB
+        // ==========================================
+
+        async function savePlanToMongoDB(
+            email,
+            goal,
+            days,
+            plan
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/save-plan",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                email:
+                                    email,
+
+                                goal:
+                                    goal,
+
+                                days:
+                                    days,
+
+                                plan:
+                                    plan
+
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Plan could not be saved"
+                    );
+                }
+
+
+                console.log(
+                    "Study Plan Saved:",
+                    data
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "MongoDB Save Error:",
+                    error
+                );
+
+                /*
+                    Plan generation should still work
+                    even if saving fails.
+                */
+
+                console.log(
+                    "Plan generated but database save failed."
+                );
+            }
+        }
+
+
+        // ==========================================
+        // DISPLAY PLAN
+        // ==========================================
+
+        function displayPlan(
+            plan,
+            goal,
+            days
+        ) {
+
+            if (!plan) {
+
+                document.getElementById(
+                    "planResult"
+                ).innerHTML = `
+                    <div class="error">
+                        ❌ No study plan was generated.
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            const sections =
+                parsePlan(plan);
+
+
+            let html = `
+
+                <div class="plan-card">
+
+                    <div class="success">
+                        ✅ Study plan generated and saved successfully.
+                    </div>
+
+                    <h2>
+                        📚 Your Personalized Study Plan
+                    </h2>
+
+
+                    <div class="plan-summary">
+
+                        <p>
+                            <strong>
+                                🎯 Goal:
+                            </strong>
+
+                            ${escapeHTML(goal)}
+                        </p>
+
+                        <p>
+                            <strong>
+                                📆 Duration:
+                            </strong>
+
+                            ${escapeHTML(days)}
+                            Days
+                        </p>
+
+                    </div>
+
+
+                    <div class="progress-section">
+
+                        <div class="progress-top">
+
+                            <span class="progress-title">
+                                📊 Plan Progress
+                            </span>
+
+                            <span
+                                class="progress-percent"
+                                id="progressPercent"
+                            >
+                                0%
+                            </span>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                id="progressFill"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="daysContainer">
+
+            `;
+
+
+            // ==========================================
+            // DAY CARDS
+            // ==========================================
+
+            sections.days.forEach(
+                function(day, index) {
+
+                    html +=
+                        createDayCard(
+                            day,
+                            index
+                        );
+                }
+            );
+
+
+            // ==========================================
+            // FINAL REVISION
+            // ==========================================
+
+            if (sections.finalRevision) {
+
+                html += `
+
+                    <div class="final-card">
+
+                        <h3>
+                            🎯 Final Revision Strategy
+                        </h3>
+
+                        <p>
+                            ${formatSimpleText(
+                                sections.finalRevision
+                            )}
+                        </p>
+
+                    </div>
+
+                `;
+            }
+
+
+            html += `
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            document.getElementById(
+                "planResult"
+            ).innerHTML = html;
+
+
+            // LOAD COMPLETION
+
+            loadProgress();
+        }
+
+
+        // ==========================================
+        // CREATE DAY CARD
+        // ==========================================
+
+        function createDayCard(
+            day,
+            index
+        ) {
+
+            const dayNumber =
+                day.number || index + 1;
+
+
+            return `
+
+                <div
+                    class="day-card"
+                    id="day-${dayNumber}"
+                >
+
+                    <div class="day-header">
+
+                        <div class="day-title">
+                            📅 DAY ${dayNumber}
+                        </div>
+
+                        <div
+                            class="day-status"
+                            id="status-${dayNumber}"
+                        >
+                            Not completed
+                        </div>
+
+                    </div>
+
+
+                    <div class="day-body">
+
+
+                        ${
+                            day.target
+                            ? `
+
+                                <div class="target-box">
+
+                                    <span class="section-title">
+                                        🎯 Target
+                                    </span>
+
+                                    <div class="target-text">
+                                        ${formatSimpleText(
+                                            day.target
+                                        )}
+                                    </div>
+
+                                </div>
+
+                            `
+                            : ""
+                        }
+
+
+                        ${
+                            day.tasks.length
+                            ? `
+
+                                <div>
+
+                                    <span class="section-title">
+                                        📚 Tasks
+                                    </span>
+
+                                    <ul class="tasks-list">
+
+                                        ${day.tasks
+                                            .map(
+                                                function(task) {
+
+                                                    return `
+
+                                                        <li class="task-item">
+
+                                                            ${formatSimpleText(
+                                                                task
+                                                            )}
+
+                                                        </li>
+
+                                                    `;
+                                                }
+                                            )
+                                            .join("")}
+
+                                    </ul>
+
+                                </div>
+
+                            `
+                            : ""
+                        }
+
+
+                        ${
+                            day.revision
+                            ? `
+
+                                <div class="revision-box">
+
+                                    <span class="section-title">
+                                        🔄 Revision / Practice
+                                    </span>
+
+                                    <div class="revision-text">
+
+                                        ${formatSimpleText(
+                                            day.revision
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+                            `
+                            : ""
+                        }
+
+
+                        <button
+                            class="complete-btn"
+                            id="complete-${dayNumber}"
+                            onclick="toggleDayCompletion(${dayNumber})"
+                        >
+                            ☐ Mark as Completed
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+            `;
+        }
+
+
+        // ==========================================
+        // PARSE AI PLAN
+        // ==========================================
+
+        function parsePlan(plan) {
+
+            const cleanPlan =
+                String(plan)
+                    .replace(/\r/g, "")
+                    .trim();
+
+
+            /*
+                This regex detects:
+
+                DAY 1
+                DAY 2
+                DAY 3
+
+                etc.
+            */
+
+            const dayRegex =
+                /DAY\s+(\d+)([\s\S]*?)(?=DAY\s+\d+|FINAL REVISION STRATEGY|$)/gi;
+
+
+            const days = [];
+
+            const seenDays =
+                new Set();
+
+
+            let match;
+
+
+            while (
+                (match =
+                    dayRegex.exec(cleanPlan)) !== null
+            ) {
+
+                const number =
+                    parseInt(match[1]);
+
+
+                const content =
+                    match[2].trim();
+
+
+                let target = "";
+
+                let revision = "";
+
+                const tasks = [];
+
+
+                // ==========================================
+                // TARGET
+                // ==========================================
+
+                const targetMatch =
+                    content.match(
+                        /Target:\s*([\s\S]*?)(?=Tasks:|Revision\s*\/\s*Practice:|$)/i
+                    );
+
+
+                if (targetMatch) {
+
+                    target =
+                        targetMatch[1].trim();
+                }
+
+
+                // ==========================================
+                // TASKS
+                // ==========================================
+
+                const tasksMatch =
+                    content.match(
+                        /Tasks:\s*([\s\S]*?)(?=Revision\s*\/\s*Practice:|$)/i
+                    );
+
+
+                if (tasksMatch) {
+
+                    const taskText =
+                        tasksMatch[1].trim();
+
+
+                    taskText
+                        .split("\n")
+                        .forEach(
+                            function(line) {
+
+                                const cleaned =
+                                    line
+                                        .replace(
+                                            /^[-•*]\s*/,
+                                            ""
+                                        )
+                                        .trim();
+
+
+                                if (cleaned) {
+
+                                    tasks.push(
+                                        cleaned
+                                    );
+                                }
+                            }
+                        );
+                }
+
+
+                // ==========================================
+                // REVISION
+                // ==========================================
+
+                const revisionMatch =
+                    content.match(
+                        /Revision\s*\/\s*Practice:\s*([\s\S]*)$/i
+                    );
+
+
+                if (revisionMatch) {
+
+                    revision =
+                        revisionMatch[1].trim();
+                }
+
+
+                // ==========================================
+                // IGNORE EMPTY DAYS
+                // ==========================================
+
+                const hasUsefulContent =
+                    target ||
+                    tasks.length > 0 ||
+                    revision;
+
+
+                if (!hasUsefulContent) {
+
+                    continue;
+                }
+
+
+                // ==========================================
+                // IGNORE DUPLICATE DAYS
+                // ==========================================
+
+                if (
+                    seenDays.has(number)
+                ) {
+
+                    continue;
+                }
+
+
+                seenDays.add(number);
+
+
+                days.push({
+
+                    number:
+                        number,
+
+                    target:
+                        target,
+
+                    tasks:
+                        tasks,
+
+                    revision:
+                        revision
+
+                });
+            }
+
+
+            // ==========================================
+            // SORT DAYS
+            // ==========================================
+
+            days.sort(
+                function(a, b) {
+
+                    return (
+                        a.number -
+                        b.number
+                    );
+
+                }
+            );
+
+
+            // ==========================================
+            // FALLBACK
+            // ==========================================
+
+            if (!days.length) {
+
+                return {
+
+                    days: [
+
+                        {
+
+                            number: 1,
+
+                            target: "",
+
+                            tasks: [
+                                cleanPlan
+                            ],
+
+                            revision: ""
+
+                        }
+
+                    ],
+
+                    finalRevision: ""
+                };
+            }
+
+
+            // ==========================================
+            // FINAL REVISION
+            // ==========================================
+
+            const finalMatch =
+                cleanPlan.match(
+                    /FINAL REVISION STRATEGY\s*([\s\S]*)$/i
+                );
+
+
+            const finalRevision =
+                finalMatch
+                ? finalMatch[1].trim()
+                : "";
+
+
+            return {
+
+                days:
+                    days,
+
+                finalRevision:
+                    finalRevision
+            };
+        }
+
+
+        // ==========================================
+        // TOGGLE DAY COMPLETION
+        // ==========================================
+
+        function toggleDayCompletion(
+            dayNumber
+        ) {
+
+            const key =
+                getProgressKey(
+                    dayNumber
+                );
+
+
+            const completed =
+                localStorage.getItem(
+                    key
+                ) === "true";
+
+
+            localStorage.setItem(
+                key,
+                (!completed).toString()
+            );
+
+
+            updateDayUI(
+                dayNumber,
+                !completed
+            );
+
+
+            updateOverallProgress();
+        }
+
+
+        // ==========================================
+        // PROGRESS KEY
+        // ==========================================
+
+        function getProgressKey(
+            dayNumber
+        ) {
+
+            return (
+                currentPlanId +
+                "_day_" +
+                dayNumber
+            );
+        }
+
+
+        // ==========================================
+        // UPDATE DAY UI
+        // ==========================================
+
+        function updateDayUI(
+            dayNumber,
+            completed
+        ) {
+
+            const card =
+                document.getElementById(
+                    `day-${dayNumber}`
+                );
+
+
+            const button =
+                document.getElementById(
+                    `complete-${dayNumber}`
+                );
+
+
+            const status =
+                document.getElementById(
+                    `status-${dayNumber}`
+                );
+
+
+            if (
+                !card ||
+                !button ||
+                !status
+            ) {
+
+                return;
+            }
+
+
+            if (completed) {
+
+                card.classList.add(
+                    "completed"
+                );
+
+                button.classList.add(
+                    "completed-btn"
+                );
+
+                button.innerText =
+                    "✓ Completed";
+
+                status.innerText =
+                    "Completed";
+
+            } else {
+
+                card.classList.remove(
+                    "completed"
+                );
+
+                button.classList.remove(
+                    "completed-btn"
+                );
+
+                button.innerText =
+                    "☐ Mark as Completed";
+
+                status.innerText =
+                    "Not completed";
+            }
+        }
+
+
+        // ==========================================
+        // LOAD PROGRESS
+        // ==========================================
+
+        function loadProgress() {
+
+            const dayCards =
+                document.querySelectorAll(
+                    ".day-card"
+                );
+
+
+            dayCards.forEach(
+                function(card) {
+
+                    const dayNumber =
+                        card.id.replace(
+                            "day-",
+                            ""
+                        );
+
+
+                    const completed =
+                        localStorage.getItem(
+                            getProgressKey(
+                                dayNumber
+                            )
+                        ) === "true";
+
+
+                    updateDayUI(
+                        dayNumber,
+                        completed
+                    );
+                }
+            );
+
+
+            updateOverallProgress();
+        }
+
+
+        // ==========================================
+        // UPDATE OVERALL PROGRESS
+        // ==========================================
+
+        function updateOverallProgress() {
+
+            const dayCards =
+                document.querySelectorAll(
+                    ".day-card"
+                );
+
+
+            const total =
+                dayCards.length;
+
+
+            if (!total) {
+                return;
+            }
+
+
+            let completed = 0;
+
+
+            dayCards.forEach(
+                function(card) {
+
+                    const dayNumber =
+                        card.id.replace(
+                            "day-",
+                            ""
+                        );
+
+
+                    if (
+                        localStorage.getItem(
+                            getProgressKey(
+                                dayNumber
+                            )
+                        ) === "true"
+                    ) {
+
+                        completed++;
+                    }
+                }
+            );
+
+
+            const percentage =
+                Math.round(
+                    (completed / total) * 100
+                );
+
+
+            const progressFill =
+                document.getElementById(
+                    "progressFill"
+                );
+
+
+            const progressPercent =
+                document.getElementById(
+                    "progressPercent"
+                );
+
+
+            if (progressFill) {
+
+                progressFill.style.width =
+                    percentage + "%";
+            }
+
+
+            if (progressPercent) {
+
+                progressPercent.innerText =
+                    percentage + "%";
+            }
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHTML(text) {
+
+            return String(text)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+        }
+
+
+        // ==========================================
+        // FORMAT TEXT
+        // ==========================================
+
+        function formatSimpleText(text) {
+
+            return escapeHTML(text)
+
+                .replace(
+                    /\n/g,
+                    "<br>"
+                );
+        }
+
+        loadSavedPlans();
+    </script>
+
+</body>
+
+</html>
