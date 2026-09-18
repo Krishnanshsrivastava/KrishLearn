@@ -1730,7 +1730,7 @@ async function loadUserProfile(email) {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/profile/" +
+                "https://krishlearn.onrender.com/api/profile/" +
                 encodeURIComponent(email)
             );
 
@@ -1898,7 +1898,7 @@ async function loadProgress(email) {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/progress/" +
+                "https://krishlearn.onrender.com/api/progress/" +
                 encodeURIComponent(email)
             );
 

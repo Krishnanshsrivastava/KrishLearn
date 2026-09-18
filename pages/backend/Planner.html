@@ -514,7 +514,7 @@ async function loadSavedPlans() {
         }
 
         const response = await fetch(
-            `http://localhost:5000/api/saved-plans/${encodeURIComponent(userData.email)}`
+            `https://krishlearn.onrender.com/api/saved-plans/${encodeURIComponent(userData.email)}`
         );
 
         const data = await response.json();
@@ -621,7 +621,7 @@ async function loadSavedPlans() {
 
                 const response =
                     await fetch(
-                        "http://localhost:5000/api/generate-plan",
+                        "https://krishlearn.onrender.com/api/generate-plan",
                         {
                             method: "POST",
 
@@ -718,7 +718,7 @@ async function loadSavedPlans() {
 
                 const response =
                     await fetch(
-                        "http://localhost:5000/api/save-plan",
+                        "https://krishlearn.onrender.com/api/save-plan",
                         {
                             method: "POST",
 
